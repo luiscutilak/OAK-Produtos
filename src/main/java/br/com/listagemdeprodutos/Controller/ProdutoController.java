@@ -15,8 +15,8 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
-    @GetMapping("/")
-    public String home(Model model) {
+    @GetMapping("/produtos")
+    public String listarPrdutos(Model model) {
     model.addAttribute("produtos", produtoService.findAll());
     return "produtos";
     }
@@ -29,11 +29,13 @@ public class ProdutoController {
 
     @PostMapping("/salvar")
     public String salvarProduto(@ModelAttribute Produto produto) {
-               if (!produto.isDisponivel()) {
-
+        if (produto.isDisponivel()) {
+            produtoService.save(produto);
+            return "redirect:/produtos";
+        } else {
             return "redirect:/erro";
         }
-        produtoService.save(produto);
-        return "redirect:/";
     }
-}
+    }
+
+
