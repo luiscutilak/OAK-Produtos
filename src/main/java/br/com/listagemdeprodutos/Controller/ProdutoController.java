@@ -26,10 +26,11 @@ public class ProdutoController {
         model.addAttribute("produto", new Produto());
         return "formProduto";
     }
+
     @PostMapping("/salvar")
     public String salvarProduto(@ModelAttribute Produto produto) {
+               if (!produto.isDisponivel()) {
 
-        if (!produto.isDisponivel()) {
             return "redirect:/erro";
         }
         produtoService.save(produto);
